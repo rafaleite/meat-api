@@ -14,7 +14,9 @@
     "@types/restify": "^5.0.7"
   },
   "dependencies": {
+    "@types/restify-errors": "^4.3.3",
     "mongoose": "^5.0.14",
-    "restify": "^7.1.1"
+    "restify": "^7.1.1",
+    "restify-errors": "^6.1.1"
   }
 }
