@@ -33,7 +33,7 @@ export class Server {
                     router.applyRoutes(this.application)
                 }
 
-                this.application.listen(environment.server.port, '127.0.0.1', () => {
+                this.application.listen(environment.server.port, () => {
                    resolve(this.application)
                 })
 
