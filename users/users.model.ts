@@ -3,7 +3,7 @@ import * as bcrypt from 'bcrypt'
 import {validateCPF} from "../common/validator";
 import {environment} from "../common/environment";
 
-export interface IUser extends mongoose.Document {
+export interface User extends mongoose.Document {
     name: String,
     email: String,
     password: String
@@ -73,4 +73,4 @@ userSchema.pre('save', saveMiddleware)
 userSchema.pre('findOneAndUpdate', updateMiddleware)
 userSchema.pre('update', updateMiddleware)
 
-export const User = mongoose.model<IUser>('User', userSchema)
+export const User = mongoose.model<User>('User', userSchema)
