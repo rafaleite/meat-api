@@ -33,6 +33,8 @@ export class Server {
                     router.applyRoutes(this.application)
                 }
 
+                this.application.pre(restify.plugins.pre.sanitizePath())
+
                 this.application.listen(environment.server.port, () => {
                    resolve(this.application)
                 })
