@@ -9,6 +9,17 @@ class ReviewsRouter extends ModelRouter<Review> {
         super(Review)
     }
 
+    envelope(document: any) : any {
+        let resource = super.envelope(document)
+        const restID = document.restaurant._id ? document.restaurant._id : document.restaurant
+        resource._links.restaurant = `/restaurant/${restID}/`
+
+        const userID = document.user._id ? document.user._id : document.user
+        resource._links.user = `/users/${userID}/`
+
+        return resource
+    }
+
     protected prepareOne(query: mongoose.DocumentQuery<Review,Review>) : mongoose.DocumentQuery<Review,Review> {
         return query.populate('user', 'name')
                     .populate('restaurant', 'name')
@@ -28,9 +39,9 @@ class ReviewsRouter extends ModelRouter<Review> {
     }*/
 
     applyRoutes(application: Server): any {
-        application.get('/reviews', this.findAll)
-        application.get('/reviews/:id', [this.validateId, this.findById])
-        application.post('/reviews', this.save)
+        application.get(`${this.basePath}`, this.findAll)
+        application.get(`${this.basePath}/:id`, [this.validateId, this.findById])
+        application.post(`${this.basePath}`, this.save)
     }
 
 }
