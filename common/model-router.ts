@@ -10,7 +10,7 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
     constructor(protected model: mongoose.Model<D>) {
         super()
         this.basePath = `/${this.model.collection.name}`
-        this.pageSize = 4
+        this.pageSize = 2
     }
 
     protected prepareOne(query: mongoose.DocumentQuery<D,D>) : mongoose.DocumentQuery<D,D> {
@@ -24,6 +24,16 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
     envelope(document: any) : any {
         let resource = Object.assign({_links: {}}, document.toJSON())
         resource._links.self = `${this.basePath}/${resource._id}`
+        return resource
+    }
+
+    envelopeAll(documents: any[], options: any = {}) {
+        let resource: any = {
+            _links: {
+                self: ``
+            },
+            items: documents
+        }
         return resource
     }
 
@@ -43,7 +53,7 @@ export abstract class ModelRouter<D extends mongoose.Document> extends Router {
         this.prepareAll(this.model.find())
             .skip(skip)
             .limit(this.pageSize)
-            .then(this.renderAll(res, next))
+            .then(this.renderAll(res, next, {page}))
             .catch(next)
     }
 
